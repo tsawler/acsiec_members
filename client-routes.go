@@ -12,13 +12,6 @@ import (
 // using the middleware.* functions.
 func ClientRoutes(mux *pat.PatternServeMux, standardMiddleWare, dynamicMiddleware alice.Chain) (*pat.PatternServeMux, error) {
 
-	// example of overriding standard route
-	//mux.Get("/", dynamicMiddleware.ThenFunc(CustomShowHome))
-
-	// we can use any of the handlers in goBlender, e.g.
-	//mux.Get("/client/yellow/submarine", standardMiddleWare.ThenFunc(handlers.Repo.ShowGalleryPage(app)))
-
-	// this route requires both a goBlender middleware, and a custom client middleware
 	mux.Get("/:slug", dynamicMiddleware.Append(mw.Auth).ThenFunc(ACSIECShowPage))
 
 	// public folder

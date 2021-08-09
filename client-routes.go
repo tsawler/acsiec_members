@@ -3,6 +3,7 @@ package clienthandlers
 import (
 	"github.com/bmizerany/pat"
 	"github.com/justinas/alice"
+	mw "github.com/tsawler/goblender/pkg/middleware"
 	"net/http"
 )
 
@@ -18,7 +19,7 @@ func ClientRoutes(mux *pat.PatternServeMux, standardMiddleWare, dynamicMiddlewar
 	//mux.Get("/client/yellow/submarine", standardMiddleWare.ThenFunc(handlers.Repo.ShowGalleryPage(app)))
 
 	// this route requires both a goBlender middleware, and a custom client middleware
-	//mux.Get("/client/some-handler", standardMiddleWare.Append(mw.Auth).Append(SomeRole).ThenFunc(SomeHandler))
+	mux.Get("/:slug", dynamicMiddleware.Append(mw.Auth).ThenFunc(ACSIECShowPage))
 
 	// public folder
 	fileServer := http.FileServer(http.Dir("./client/clienthandlers/public/"))

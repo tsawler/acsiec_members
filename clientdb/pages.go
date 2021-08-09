@@ -2,6 +2,7 @@ package clientdb
 
 import (
 	"database/sql"
+	"fmt"
 	"github.com/tsawler/goblender/pkg/models"
 )
 
@@ -36,4 +37,20 @@ func (m *PageModel) AllPages() ([]*models.Page, error) {
 	}
 
 	return pages, nil
+}
+
+func (m *PageModel) IsPrincipalPage(id int) bool {
+	query := "SELECT count(page_id) from principal_pages where page_id = $1"
+	row := m.DB.QueryRow(query, id)
+	var num int
+	err := row.Scan(&num)
+	if err != nil {
+		fmt.Println(err)
+		return true
+	}
+	if num > 0 {
+		return true
+	}
+	return false
+
 }

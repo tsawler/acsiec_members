@@ -1,0 +1,9 @@
+create_table("principal_pages") {
+  t.Column("id", "integer", {primary: true})
+  t.Column("page_id", "integer", {"unsigned": true, "null":true})
+}
+
+add_foreign_key("principal_pages", "page_id", {"pages": ["id"]}, {
+    "on_delete": "cascade",
+    "on_update": "cascade",
+})
